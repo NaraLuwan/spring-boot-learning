@@ -1,6 +1,5 @@
 package com.github.luwan.spring.boot.learning.fastdfs.controller;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.github.luwan.spring.boot.learning.fastdfs.constants.ResponseCodeMsg;
 import com.github.luwan.spring.boot.learning.fastdfs.constants.ResponseData;
 import com.github.luwan.spring.boot.learning.fastdfs.exception.FastDFSException;
@@ -19,23 +18,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler(JsonParseException.class)
-    @ResponseBody
-    public ResponseData handleJsonFormatException(JsonParseException e) {
-        log.error("JSON format parsing err!", e);
-        return ResponseData.fail(ResponseCodeMsg.ILLEGAL_JSON);
-    }
-
     @ExceptionHandler(FastDFSException.class)
     @ResponseBody
     public ResponseData handleServiceException(FastDFSException e) {
         log.error("File server err!", e);
-        return ResponseData.fail(ResponseCodeMsg.SERVER_ERR, "File server err!");
+        return ResponseData.fail(ResponseCodeMsg.SERVER_ERR, e.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Throwable.class)
     @ResponseBody
-    public ResponseData handleNullPointException(Exception e) {
+    public ResponseData handleNullPointException(Throwable e) {
         log.error("Unknown server exception!", e);
         return ResponseData.fail(ResponseCodeMsg.SERVER_ERR);
     }

@@ -8,7 +8,7 @@ import lombok.Data;
  * @date 2020/1/10
  */
 @Data
-public class FastDFSException extends Exception {
+public class FastDFSException extends RuntimeException {
 
     /**
      * 错误码

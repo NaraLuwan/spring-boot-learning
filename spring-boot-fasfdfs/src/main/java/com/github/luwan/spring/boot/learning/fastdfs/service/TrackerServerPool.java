@@ -21,7 +21,7 @@ public class TrackerServerPool {
     private static final String FASTDFS_CONFIG_PATH = "application.properties";
 
     /**
-     * 最大连接数 default 8.
+     * 最大连接数
      */
     @Value("${max_storage_connection}")
     private static int maxStorageConnection;
@@ -87,6 +87,4 @@ public class TrackerServerPool {
         }
         getPool().returnObject(trackerServer);
     }
-
-
 }

@@ -6,6 +6,7 @@ import com.github.luwan.spring.boot.learning.fastdfs.utils.FileUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.csource.common.MyException;
 import org.csource.fastdfs.StorageClient1;
 import org.csource.fastdfs.TrackerServer;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,20 @@ import java.io.InputStream;
 @Service
 public class FastDFSService {
 
-    public String upload(String fileName, InputStream inputStream) throws FastDFSException {
+    /**
+     * 流方式上传文件
+     *
+     * @param fileName    待上传的文件名
+     * @param inputStream 对应文件流
+     * @return
+     * @throws FastDFSException
+     * @throws IOException
+     * @throws MyException
+     */
+    public String upload(String fileName, InputStream inputStream) throws FastDFSException, IOException, MyException {
         TrackerServer trackerServer = TrackerServerPool.getTracker();
         if (trackerServer == null) {
-            throw new FastDFSException(ResponseCodeMsg.FILE_SERVER_CONNECTION_FAILED.getCode(), ResponseCodeMsg.FILE_SERVER_CONNECTION_FAILED.getMsg());
+            throw FastDFSException.instance(ResponseCodeMsg.FILE_SERVER_CONNECTION_FAILED);
         }
         StorageClient1 storageClient = new StorageClient1(trackerServer, null);
         String path = "";
@@ -34,21 +45,15 @@ public class FastDFSService {
             byte[] fileBuff = new byte[inputStream.available()];
             inputStream.read(fileBuff, 0, fileBuff.length);
 
-            // 文件名后缀
             String suffix = FileUtil.getFilenameSuffix(fileName);
 
             // 上传
             path = storageClient.upload_file1(fileBuff, suffix, null);
 
             if (StringUtils.isBlank(path)) {
-                throw new FastDFSException(ResponseCodeMsg.FILE_UPLOAD_FAILED.getCode(), ResponseCodeMsg.FILE_UPLOAD_FAILED.getMsg());
+                throw FastDFSException.instance(ResponseCodeMsg.FILE_UPLOAD_FAILED);
             }
-
-        } catch (Throwable e) {
-            log.error("upload file err", e);
-            throw new FastDFSException(ResponseCodeMsg.SERVER_ERR.getCode(), ResponseCodeMsg.SERVER_ERR.getMsg());
         } finally {
-            // 关闭流
             if (inputStream != null) {
                 try {
                     inputStream.close();
@@ -61,9 +66,5 @@ public class FastDFSService {
         TrackerServerPool.returnTracker(trackerServer);
 
         return path;
-    }
-
-    public String download(String fileName) {
-        return "file.server.com" + fileName;
     }
 }
