@@ -1,6 +1,5 @@
 package com.github.luwan.spring.boot.learning.fastdfs.controller;
 
-import com.github.luwan.spring.boot.learning.fastdfs.constants.ResponseCodeMsg;
 import com.github.luwan.spring.boot.learning.fastdfs.constants.ResponseData;
 import com.github.luwan.spring.boot.learning.fastdfs.exception.FastDFSException;
 import com.github.luwan.spring.boot.learning.fastdfs.service.FastDFSService;

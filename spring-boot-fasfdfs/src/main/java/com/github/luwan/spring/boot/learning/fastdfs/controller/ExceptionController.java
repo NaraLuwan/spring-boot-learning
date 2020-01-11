@@ -18,6 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class ExceptionController {
 
+    /**
+     * 全局捕获自定义异常，返回具体异常信息
+     *
+     * @param e
+     * @return
+     */
     @ExceptionHandler(FastDFSException.class)
     @ResponseBody
     public ResponseData handleServiceException(FastDFSException e) {
@@ -25,6 +31,12 @@ public class ExceptionController {
         return ResponseData.fail(ResponseCodeMsg.SERVER_ERR, e.getMessage());
     }
 
+    /**
+     * 捕获所有未知异常
+     *
+     * @param e
+     * @return
+     */
     @ExceptionHandler(Throwable.class)
     @ResponseBody
     public ResponseData handleNullPointException(Throwable e) {
