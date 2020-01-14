@@ -6,16 +6,17 @@
 
 ## 安装步骤
 ### 准备工作
-1. 建议把所有安装包都下载到一个统一的目录。比如我放在/softpackages/目录下
-2. 修改hosts，将文件服务器的ip与域名映射(单机TrackerServer环境)，因为后面很多配置里面都需要去配置服务器地址，ip变了，就只需要修改hosts即可。
+1. 建议把所有安装包都下载到一个统一的目录，比如我放在/softpackages/目录下
+2. 修改hosts，将文件服务器的ip与域名映射(单机TrackerServer环境)，因为后面很多配置里面都需要去配置服务器地址，如果后期ip变了就只需要修改hosts即可
 ```bash
 vim /etc/hosts
 ```
 增加以下内容（10.242.177.40是我的IP）：
 ```text
-192.168.51.128 file.server.com
+10.242.177.40 file.server.com
 ```
 如果要本机访问虚拟机，在C:\Windows\System32\drivers\etc\hosts中同样增加一行
+
 3. 如果不是root用户，必须在除了cd的命令之外全部加sudo，编译和安装要分开sudo执行
 
 ### 下载安装 libfastcommon（基础环境）
@@ -204,12 +205,10 @@ netstat -unltp|grep fdfs
 
 查看Storage和Tracker是否在通信：
 
-![github](https://github.com/NaraLuwan/spring-boot-learning/master/img/2020011402.png)
-
 ```bash
 /usr/bin/fdfs_monitor /etc/fdfs/storage.conf
 ```
-
+![github](https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011402.png)
 
 6. 设置 Storage 开机启动（可选）
 ```bash
@@ -221,9 +220,9 @@ chkconfig fdfs_storaged on
 同 Tracker，Storage 启动成功后，在base_path 下创建了data、logs目录，记录着 Storage Server 的信息。
 
 在 store_path0 目录下，创建了N*N个子目录：
-![github](https://github.com/NaraLuwan/spring-boot-learning/master/img/2020011403.png)
+![github](https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011403.png)
 
-至此，FastDFS单机部署配置已完成，接下来测试下文件上传。
+至此，FastDFS单机部署配置已完成，接下来测试下文件上传
 
 ### 文件上传测试
 1. 修改 Tracker 服务器中的客户端配置文件 
@@ -242,9 +241,9 @@ tracker_server=file.server.com:22122
 ```
 2. 上传测试
 
-在linux内部执行如下命令上传 test.txt 文本
+调用client upload接口上传 test.txt 文本
 ```bash
 /usr/bin/fdfs_upload_file /etc/fdfs/client.conf test.txt
 ```
-group1/M00/00/00/CvKxKF4dN0iARCm2AAAADzqXUB8903.txt
+返回文件ID即成功，如：group1/M00/00/00/CvKxKF4dN0iARCm2AAAADzqXUB8903.txt
 
