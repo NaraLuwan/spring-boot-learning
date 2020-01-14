@@ -196,7 +196,7 @@ service fdfs_trackerd start
 
 查看 Storage 是否成功启动，23000 端口正在被监听，就算 Storage 启动成功。
 
-![github](https://github.com/NaraLuwan/spring-boot-learning/master/img/2020011401.png)
+![github](https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011401.png)
 
 ```bash
 netstat -unltp|grep fdfs
