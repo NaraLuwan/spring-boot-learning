@@ -9,7 +9,7 @@
 1. 建议把所有安装包都下载到一个统一的目录。比如我放在/softpackages/目录下
 2. 修改hosts，将文件服务器的ip与域名映射(单机TrackerServer环境)，因为后面很多配置里面都需要去配置服务器地址，ip变了，就只需要修改hosts即可。
 ```bash
-# vim /etc/hosts
+vim /etc/hosts
 ```
 增加以下内容（10.242.177.40是我的IP）：
 ```text
@@ -21,39 +21,39 @@
 ### 下载安装 libfastcommon（基础环境）
 1. 下载libfastcommon
 ```bash
-# wget https://github.com/happyfish100/libfastcommon/archive/V1.0.7.tar.gz
+wget https://github.com/happyfish100/libfastcommon/archive/V1.0.7.tar.gz
 ```
 2. 解压
 ```bash
-# tar -zxvf V1.0.7.tar.gz
-# cd libfastcommon-1.0.7
+tar -zxvf V1.0.7.tar.gz
+cd libfastcommon-1.0.7
 ```
 3. 编译&安装
 ```bash
-# ./make.sh
-# ./make.sh install
+./make.sh
+./make.sh install
 ```
 4. libfastcommon.so 安装到了/usr/lib64/libfastcommon.so，但是FastDFS主程序设置的lib目录是/usr/local/lib，所以需要创建软链接。
 ```bash
-# ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so
-# ln -s /usr/lib64/libfastcommon.so /usr/lib/libfastcommon.so
-# ln -s /usr/lib64/libfdfsclient.so /usr/local/lib/libfdfsclient.so
-# ln -s /usr/lib64/libfdfsclient.so /usr/lib/libfdfsclient.so 
+ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so
+ln -s /usr/lib64/libfastcommon.so /usr/lib/libfastcommon.so
+ln -s /usr/lib64/libfdfsclient.so /usr/local/lib/libfdfsclient.so
+ln -s /usr/lib64/libfdfsclient.so /usr/lib/libfdfsclient.so 
 ```
 ### 下载安装FastDFS
 1. 下载FastDFS
 ```bash
-# wget https://github.com/happyfish100/fastdfs/archive/V5.05.tar.gz
+wget https://github.com/happyfish100/fastdfs/archive/V5.05.tar.gz
 ```
 2. 解压
 ```bash
-# tar -zxvf V5.05.tar.gz
-# cd fastdfs-5.05
+tar -zxvf V5.05.tar.gz
+cd fastdfs-5.05
 ```
 3. 编译&安装
 ```bash
-# ./make.sh
-# ./make.sh install
+./make.sh
+./make.sh install
 ```
 4. 安装后的相应文件与目录
     - 服务脚本
@@ -67,10 +67,10 @@
         - /usr/bin/
 5. FastDFS 服务脚本设置的 bin 目录是 /usr/local/bin， 但实际命令安装在 /usr/bin/ 下，这里需要建立软链接
 ```bash
-# ln -s /usr/bin/fdfs_trackerd   /usr/local/bin
-# ln -s /usr/bin/fdfs_storaged   /usr/local/bin
-# ln -s /usr/bin/stop.sh         /usr/local/bin
-# ln -s /usr/bin/restart.sh      /usr/local/bin
+ln -s /usr/bin/fdfs_trackerd   /usr/local/bin
+ln -s /usr/bin/fdfs_storaged   /usr/local/bin
+ln -s /usr/bin/stop.sh         /usr/local/bin
+ln -s /usr/bin/restart.sh      /usr/local/bin
 ```
 
 至此，FastDFS就已安装完成。接下来分别配置跟踪器(Tracker)、存储 (Storage)
@@ -78,9 +78,9 @@
 ### 配置FastDFS跟踪器(Tracker)
 1. 进入 /etc/fdfs，复制 FastDFS 跟踪器样例配置文件 tracker.conf.sample，并重命名为 tracker.conf。
 ```bash
-# cd /etc/fdfs
-# cp tracker.conf.sample tracker.conf
-# vim tracker.conf
+cd /etc/fdfs
+cp tracker.conf.sample tracker.conf
+vim tracker.conf
 ```
 2. 编辑tracker.conf ，修改以下内容：
 ```text
@@ -89,11 +89,11 @@ base_path=/home/luwan/fastdfs/tracker
 ```
 3. 创建tracker基础数据目录，即base_path对应的目录
 ```bash
-# mkdir -p /home/luwan/fastdfs/tracker
+mkdir -p /home/luwan/fastdfs/tracker
 ```
 4. 防火墙中打开跟踪端口（默认的22122）
 ```bash
-# vim /etc/sysconfig/iptables
+vim /etc/sysconfig/iptables
 ```
 添加以下内容：
 ```text
@@ -101,29 +101,29 @@ base_path=/home/luwan/fastdfs/tracker
 ```
 重启防火墙:
 ```bash
-# service iptables restart
+service iptables restart
 ```
 只是测试的话可以直接关闭防火墙
 ```bash
-# ufw disable
+ufw disable
 ```
 5. 启动Tracker
 初次成功启动，会在 /home/luwan/fastdfs/tracker (配置的base_path)下创建 data、logs 两个目录。
 ```bash
-# /etc/init.d/fdfs_trackerd start
+/etc/init.d/fdfs_trackerd start
 ```
 如果上面创建了软链接，也可以用这种方式：
 ```bash
-# service fdfs_trackerd start
+service fdfs_trackerd start
 ```
 查看 FastDFS Tracker 是否已成功启动 ，22122端口正在被监听，则算是Tracker服务安装成功。
 ```bash
-# netstat -unltp|grep fdfs
+netstat -unltp|grep fdfs
 ```
 
 6. 设置Tracker开机启动（可选）
 ```bash
-# chkconfig fdfs_trackerd on
+chkconfig fdfs_trackerd on
 ```
 7. tracker server 目录及文件结构
 ```text
@@ -138,9 +138,9 @@ ${base_path}
 ### 配置 FastDFS 存储 (Storage)
 1. 进入 /etc/fdfs 目录，复制 FastDFS 存储器样例配置文件 storage.conf.sample，并重命名为 storage.conf
 ```bash
-# cd /etc/fdfs
-# cp storage.conf.sample storage.conf
-# vim storage.conf
+cd /etc/fdfs
+cp storage.conf.sample storage.conf
+vim storage.conf
 ```
 2. 编辑storage.conf ，修改以下内容：
 ```text
@@ -165,13 +165,13 @@ tracker_server=file.server.com:22122
 
 3. 创建Storage基础数据目录，对应base_path目录
 ```bash
-# mkdir -p /home/luwan/fastdfs/storage
-# mkdir -p /home/luwan/fastdfs/storage/file
+mkdir -p /home/luwan/fastdfs/storage
+mkdir -p /home/luwan/fastdfs/storage/file
 ```
 
 4. 防火墙中打开存储器端口（默认的 23000）
 ```bash
-# vim /etc/sysconfig/iptables
+vim /etc/sysconfig/iptables
 ```
 
 添加以下内容：
@@ -181,30 +181,30 @@ tracker_server=file.server.com:22122
 
 重启防火墙：
 ```bash
-# service iptables restart
+service iptables restart
 ```
 5. 启动 Storage
 
 启动Storage前确保Tracker是启动的。初次启动成功，会在 /home/luwan/fastdfs/storage 目录下创建 data、 logs 两个目录。
 ```bash
-# /etc/init.d/fdfs_storaged start
+/etc/init.d/fdfs_storaged start
 ```
 如果上面创建了软链接，也可以用这种方式：
 ```bash
-# service fdfs_trackerd start
+service fdfs_trackerd start
 ```
 
 查看 Storage 是否成功启动，23000 端口正在被监听，就算 Storage 启动成功。
 
-![avatar][https://github.com/NaraLuwan/spring-boot-learning/blob/master/%E6%80%BB%E7%BB%93%E6%96%87%E6%A1%A3/img/2020011401.png]
+![avatar][https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011401.png]
 
 ```bash
-# netstat -unltp|grep fdfs
+netstat -unltp|grep fdfs
 ```
 
 查看Storage和Tracker是否在通信：
 
-![avatar][https://github.com/NaraLuwan/spring-boot-learning/blob/master/%E6%80%BB%E7%BB%93%E6%96%87%E6%A1%A3/img/2020011402.png]
+![avatar][https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011402.png]
 
 ```bash
 /usr/bin/fdfs_monitor /etc/fdfs/storage.conf
@@ -213,7 +213,7 @@ tracker_server=file.server.com:22122
 
 6. 设置 Storage 开机启动（可选）
 ```bash
-# chkconfig fdfs_storaged on
+chkconfig fdfs_storaged on
 ```
 
 7. Storage 目录
@@ -221,16 +221,16 @@ tracker_server=file.server.com:22122
 同 Tracker，Storage 启动成功后，在base_path 下创建了data、logs目录，记录着 Storage Server 的信息。
 
 在 store_path0 目录下，创建了N*N个子目录：
-![avatar][https://github.com/NaraLuwan/spring-boot-learning/blob/master/%E6%80%BB%E7%BB%93%E6%96%87%E6%A1%A3/img/2020011403.png]
+![avatar][https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011403.png]
 
 至此，FastDFS单机部署配置已完成，接下来测试下文件上传。
 
 ### 文件上传测试
 1. 修改 Tracker 服务器中的客户端配置文件 
 ```bash
-# cd /etc/fdfs
-# cp client.conf.sample client.conf
-# vim client.conf
+cd /etc/fdfs
+cp client.conf.sample client.conf
+vim client.conf
 ```
 修改以下配置：
 ```text
@@ -244,7 +244,7 @@ tracker_server=file.server.com:22122
 
 在linux内部执行如下命令上传 test.txt 文本
 ```bash
-# /usr/bin/fdfs_upload_file /etc/fdfs/client.conf test.txt
+/usr/bin/fdfs_upload_file /etc/fdfs/client.conf test.txt
 ```
 group1/M00/00/00/CvKxKF4dN0iARCm2AAAADzqXUB8903.txt
 
