@@ -196,7 +196,7 @@ service fdfs_trackerd start
 
 查看 Storage 是否成功启动，23000 端口正在被监听，就算 Storage 启动成功。
 
-![avatar][https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011401.png]
+![github](https://github.com/NaraLuwan/spring-boot-learning/master/img/2020011401.png)
 
 ```bash
 netstat -unltp|grep fdfs
@@ -204,7 +204,7 @@ netstat -unltp|grep fdfs
 
 查看Storage和Tracker是否在通信：
 
-![avatar][https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011402.png]
+![github](https://github.com/NaraLuwan/spring-boot-learning/master/img/2020011402.png)
 
 ```bash
 /usr/bin/fdfs_monitor /etc/fdfs/storage.conf
@@ -221,7 +221,7 @@ chkconfig fdfs_storaged on
 同 Tracker，Storage 启动成功后，在base_path 下创建了data、logs目录，记录着 Storage Server 的信息。
 
 在 store_path0 目录下，创建了N*N个子目录：
-![avatar][https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011403.png]
+![github](https://github.com/NaraLuwan/spring-boot-learning/master/img/2020011403.png)
 
 至此，FastDFS单机部署配置已完成，接下来测试下文件上传。
 
