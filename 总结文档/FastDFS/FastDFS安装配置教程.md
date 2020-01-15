@@ -6,7 +6,7 @@
 
 ## 安装步骤
 ### 准备工作
-1. 建议把所有安装包都下载到一个统一的目录，比如我放在/softpackages/目录下
+1. 建议把所有安装包都下载到一个统一的目录，比如我放在/home/luwan/software/目录下
 2. 修改hosts，将文件服务器的ip与域名映射(单机TrackerServer环境)，因为后面很多配置里面都需要去配置服务器地址，如果后期ip变了就只需要修改hosts即可
 ```bash
 vim /etc/hosts
