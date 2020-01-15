@@ -184,7 +184,7 @@ cd /home/luwan/software/nginx-1.12.1/
 /usr/local/nginx/sbin/nginx -V
 ```
 有下面这个就说明添加模块成功
-![github](https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011404.png)
+![github](https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011406.png)
 
 5. 复制 fastdfs-nginx-module 源码中的配置文件到/etc/fdfs 目录并修改
 ```bash
@@ -241,11 +241,11 @@ ln -s /ljzsg/fastdfs/file/data/ /ljzsg/fastdfs/file/data/M00
 ```bash
 /usr/local/nginx/sbin/nginx
 ```
-打印出如下就算配置成功：
-![github](https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011406.png)
-
 10. 在地址栏访问
 ```text
 http://file.server.com/group1/M00/00/00/CvKxKF4dN0iARCm2AAAADzqXUB8903.txt
 ```
 能下载文件就算安装成功。注意和第三点中直接使用nginx路由访问不同的是，这里配置 fastdfs-nginx-module 模块，可以重定向文件链接到源服务器取文件。
+
+最终部署图：
+![github](https://github.com/NaraLuwan/spring-boot-learning/blob/master/img/2020011407.png)
