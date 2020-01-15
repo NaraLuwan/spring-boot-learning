@@ -18,7 +18,7 @@ public class TrackerServerPool {
     /**
      * TrackerServer 配置文件路径
      */
-    private static final String FASTDFS_CONFIG_PATH = "application.properties";
+    private static final String FASTDFS_CONFIG_PATH = "fastdfs-client.properties";
 
     /**
      * 最大连接数
@@ -44,10 +44,6 @@ public class TrackerServerPool {
                 throw FastDFSException.instance(ResponseCodeMsg.FILE_SERVER_CONNECTION_FAILED);
             }
 
-            if (log.isDebugEnabled()) {
-                log.debug("ClientGlobal configInfo: {}", ClientGlobal.configInfo());
-            }
-
             // Pool配置
             GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
             poolConfig.setMinIdle(2);
@@ -56,6 +52,8 @@ public class TrackerServerPool {
             }
 
             trackerServerPool = new GenericObjectPool<>(new TrackerServerFactory(), poolConfig);
+
+            log.info("ClientGlobal configInfo: {}", ClientGlobal.configInfo());
         }
         return trackerServerPool;
     }
