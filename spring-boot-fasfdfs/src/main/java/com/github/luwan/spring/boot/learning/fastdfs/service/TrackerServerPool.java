@@ -7,14 +7,17 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.csource.fastdfs.ClientGlobal;
 import org.csource.fastdfs.TrackerServer;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * @author luwan
  * @date 2020/1/10
  */
 @Slf4j
-public class TrackerServerPool {
+@Component
+public class TrackerServerPool implements InitializingBean {
     /**
      * TrackerServer 配置文件路径
      */
@@ -35,26 +38,7 @@ public class TrackerServerPool {
     private TrackerServerPool() {
     }
 
-
-    private static synchronized GenericObjectPool<TrackerServer> getPool() throws FastDFSException {
-        if (trackerServerPool == null) {
-            try {
-                ClientGlobal.initByProperties(FASTDFS_CONFIG_PATH);
-            } catch (Exception e) {
-                throw FastDFSException.instance(ResponseCodeMsg.FILE_SERVER_CONNECTION_FAILED);
-            }
-
-            // Pool配置
-            GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
-            poolConfig.setMinIdle(2);
-            if (maxStorageConnection > 0) {
-                poolConfig.setMaxTotal(maxStorageConnection);
-            }
-
-            trackerServerPool = new GenericObjectPool<>(new TrackerServerFactory(), poolConfig);
-
-            log.info("ClientGlobal configInfo: {}", ClientGlobal.configInfo());
-        }
+    private static GenericObjectPool<TrackerServer> getPool() {
         return trackerServerPool;
     }
 
@@ -84,5 +68,39 @@ public class TrackerServerPool {
             return;
         }
         getPool().returnObject(trackerServer);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (trackerServerPool == null) {
+            init();
+        }
+    }
+
+    /**
+     * 初始化线程池
+     * @return
+     * @throws FastDFSException
+     */
+    private static synchronized GenericObjectPool<TrackerServer> init() throws FastDFSException {
+        if (trackerServerPool == null) {
+            try {
+                ClientGlobal.initByProperties(FASTDFS_CONFIG_PATH);
+            } catch (Exception e) {
+                throw FastDFSException.instance(ResponseCodeMsg.FILE_SERVER_CONNECTION_FAILED);
+            }
+
+            // Pool配置
+            GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
+            poolConfig.setMinIdle(2);
+            if (maxStorageConnection > 0) {
+                poolConfig.setMaxTotal(maxStorageConnection);
+            }
+
+            trackerServerPool = new GenericObjectPool<>(new TrackerServerFactory(), poolConfig);
+
+            log.info("ClientGlobal configInfo: {}", ClientGlobal.configInfo());
+        }
+        return trackerServerPool;
     }
 }
