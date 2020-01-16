@@ -8,7 +8,6 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.csource.fastdfs.ClientGlobal;
 import org.csource.fastdfs.TrackerServer;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,12 +21,6 @@ public class TrackerServerPool implements InitializingBean {
      * TrackerServer 配置文件路径
      */
     private static final String FASTDFS_CONFIG_PATH = "fastdfs-client.properties";
-
-    /**
-     * 最大连接数
-     */
-    @Value("${max_storage_connection}")
-    private static int maxStorageConnection;
 
     /**
      * TrackerServer 对象池.
@@ -79,6 +72,7 @@ public class TrackerServerPool implements InitializingBean {
 
     /**
      * 初始化线程池
+     *
      * @return
      * @throws FastDFSException
      */
@@ -93,9 +87,6 @@ public class TrackerServerPool implements InitializingBean {
             // Pool配置
             GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
             poolConfig.setMinIdle(2);
-            if (maxStorageConnection > 0) {
-                poolConfig.setMaxTotal(maxStorageConnection);
-            }
 
             trackerServerPool = new GenericObjectPool<>(new TrackerServerFactory(), poolConfig);
 
