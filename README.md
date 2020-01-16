@@ -8,7 +8,7 @@ Spring Boot learning
 
 ---
 
-**示例代码**
+**Done**
 
 - [spring-boot-fastdfs](https://github.com/NaraLuwan/spring-boot-learning/tree/master/spring-boot-fasfdfs)：Spring Boot 集成 FastDFS，附分布式安装配置说明
 - [spring-boot-ldap](https://github.com/NaraLuwan/spring-boot-learning/tree/master/spring-boot-ldap)：Spring Boot 集成 LDAP 权限认证
