@@ -12,3 +12,4 @@ Spring Boot learning
 
 - [spring-boot-fastdfs](https://github.com/NaraLuwan/spring-boot-learning/tree/master/spring-boot-fasfdfs)：Spring Boot 集成 FastDFS，附分布式安装配置说明
 - [spring-boot-ldap](https://github.com/NaraLuwan/spring-boot-learning/tree/master/spring-boot-ldap)：Spring Boot 集成 LDAP 权限认证
+- [spring-boot-docker](https://github.com/NaraLuwan/spring-boot-learning/tree/master/spring-boot-docker)：使用 Docker 部署 Spring Boot 项目
