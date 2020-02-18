@@ -1,7 +1,6 @@
 package com.github.luwan.spring.boot.learning.ldap.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.encoding.LdapShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -22,18 +21,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin();
     }
 
+    /*@Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .ldapAuthentication()
+                .userDnPatterns("uid={0}")
+                .groupSearchBase("ou=test")
+                .contextSource()
+                .url("ldap://10.219.161.37:389/dc=netease,dc=com")
+                .and()
+                .passwordCompare()
+                .passwordAttribute("userPassword");
+    }*/
+
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .ldapAuthentication()
-                .userDnPatterns("uid={0},ou=people")
-                .groupSearchBase("ou=groups")
+                .userDnPatterns("cn={0},ou=people,o=sevenSeas")
+                .groupSearchBase("o=sevenSeas")
                 .contextSource()
-                .url("ldap://localhost:8389/dc=springframework,dc=org")
-                .and()
-                .passwordCompare()
-                .passwordEncoder(new LdapShaPasswordEncoder())
-                .passwordAttribute("userPassword");
+                .url("ldap://10.200.128.111:10389")
+                .managerDn("uid=admin,ou=system")
+                .managerPassword("yidun1818")
+        //.and()
+        //.passwordCompare()
+        //.passwordEncoder(new LdapShaPasswordEncoder())
+        //.passwordAttribute("userPassword")
+        ;
     }
 
 }
