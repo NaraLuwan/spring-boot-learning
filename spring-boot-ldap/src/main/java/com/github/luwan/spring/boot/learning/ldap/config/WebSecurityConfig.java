@@ -21,33 +21,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin();
     }
 
-    /*@Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .ldapAuthentication()
-                .userDnPatterns("uid={0}")
-                .groupSearchBase("ou=test")
-                .contextSource()
-                .url("ldap://10.219.161.37:389/dc=netease,dc=com")
-                .and()
-                .passwordCompare()
-                .passwordAttribute("userPassword");
-    }*/
-
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .ldapAuthentication()
-                .userDnPatterns("cn={0},ou=people,o=sevenSeas")
+                .userDnPatterns("cn={0},ou=people")
                 .groupSearchBase("o=sevenSeas")
                 .contextSource()
-                .url("ldap://10.200.128.111:10389")
+                .url("ldap://127.0.0.1:10389")
                 .managerDn("uid=admin,ou=system")
-                .managerPassword("yidun1818")
-        //.and()
-        //.passwordCompare()
-        //.passwordEncoder(new LdapShaPasswordEncoder())
-        //.passwordAttribute("userPassword")
+                .managerPassword("adminPassword")
         ;
     }
 
