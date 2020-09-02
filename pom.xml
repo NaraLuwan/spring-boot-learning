@@ -19,6 +19,7 @@
         <module>spring-boot-fasfdfs</module>
         <module>spring-boot-ldap</module>
         <module>spring-boot-docker</module>
+        <module>spring-boot-demo</module>
     </modules>
 
     <properties>
@@ -58,4 +59,13 @@
             </snapshots>
         </repository>
     </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
