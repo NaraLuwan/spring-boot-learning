@@ -20,6 +20,7 @@
         <module>spring-boot-ldap</module>
         <module>spring-boot-docker</module>
         <module>spring-boot-demo</module>
+        <module>spring-boot-aop</module>
     </modules>
 
     <properties>
