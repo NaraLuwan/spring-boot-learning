@@ -21,6 +21,8 @@
         <module>spring-boot-docker</module>
         <module>spring-boot-demo</module>
         <module>spring-boot-aop</module>
+        <module>spring-boot-event</module>
+        <module>spring-boot-zookeeper</module>
     </modules>
 
     <properties>
