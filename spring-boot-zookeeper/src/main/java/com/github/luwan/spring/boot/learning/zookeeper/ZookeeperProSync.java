@@ -7,6 +7,11 @@ import org.apache.zookeeper.data.Stat;
 
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * zk sync
+ * @author NaraLuwan
+ * @date 2021-03-22
+ */
 public class ZookeeperProSync implements Watcher {
 
     private static CountDownLatch connectedSemaphore = new CountDownLatch(1);
