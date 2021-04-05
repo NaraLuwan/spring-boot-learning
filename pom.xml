@@ -24,6 +24,7 @@
         <module>spring-boot-event</module>
         <module>spring-boot-zookeeper</module>
         <module>jdk-demo</module>
+        <module>spring-boot-redis</module>
     </modules>
 
     <properties>
